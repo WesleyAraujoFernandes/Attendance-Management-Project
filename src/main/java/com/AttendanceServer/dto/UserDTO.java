@@ -11,4 +11,6 @@ public class UserDTO {
     private String password;
     private String name;
     private UserRole userRole;
+    private Long projectId;
+    private String projectName;
 }

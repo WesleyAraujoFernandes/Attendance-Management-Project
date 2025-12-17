@@ -3,6 +3,7 @@ package com.AttendanceServer.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,15 @@ public class ProjectController {
             return ResponseEntity.ok(projectService.addProject(dto));
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error creating project: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllProjects() {
+        try {
+            return ResponseEntity.ok(projectService.getAllProjects());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error retrieving projects: " + e.getMessage());
         }
     }
 }
