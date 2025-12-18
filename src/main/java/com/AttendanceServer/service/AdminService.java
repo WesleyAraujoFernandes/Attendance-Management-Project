@@ -1,6 +1,9 @@
 package com.AttendanceServer.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.AttendanceServer.dto.UserDTO;
 import com.AttendanceServer.entities.Project;
 import com.AttendanceServer.entities.User;
+import com.AttendanceServer.enums.UserRole;
 import com.AttendanceServer.repository.ProjectRepository;
 import com.AttendanceServer.repository.UserRepository;
 
@@ -27,7 +31,7 @@ public class AdminService {
             throw new EntityExistsException("User with email " + dto.getEmail() + " already exists.");
         }
         Optional<Project> optionalProject = projectRepository.findById(dto.getProjectId());
-        if (optionalProject.isEmpty()) {
+        if (!optionalProject.isEmpty()) {
             User user = new User();
             user.setUserRole(dto.getUserRole());
             user.setPassword(dto.getPassword());
@@ -38,6 +42,10 @@ public class AdminService {
             return userCreated.getDto();
         }
         throw new EntityNotFoundException("Project Not Found");
+    }
 
+    public List<UserDTO> getAllManagers() {
+        List<User> user = userRepository.findAllByUserRole(UserRole.MANAGER);
+        return user.stream().map(User::getDto).collect(Collectors.toList());
     }
 }
