@@ -46,4 +46,13 @@ public class AdminController {
             return ResponseEntity.status(500).body("Error retrieving managers: " + e.getMessage());
         }
     }
+
+    @GetMapping("/employees")
+    public ResponseEntity<?> getAllEmployees() {
+        try {
+            return ResponseEntity.ok(adminService.getAllEmployees());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error retrieving employees: " + e.getMessage());
+        }
+    }
 }

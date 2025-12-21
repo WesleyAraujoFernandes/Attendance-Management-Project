@@ -2,7 +2,6 @@ package com.AttendanceServer.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +45,11 @@ public class AdminService {
 
     public List<UserDTO> getAllManagers() {
         List<User> user = userRepository.findAllByUserRole(UserRole.MANAGER);
+        return user.stream().map(User::getDto).collect(Collectors.toList());
+    }
+
+    public List<UserDTO> getAllEmployees() {
+        List<User> user = userRepository.findAllByUserRole(UserRole.EMPLOYEE);
         return user.stream().map(User::getDto).collect(Collectors.toList());
     }
 }
